@@ -1,0 +1,12 @@
+You are using pip version 9.0.1, however version 9.0.3 is available.
+You should consider upgrading via the 'pip install --upgrade pip' command.
+es (from pypandoc~=1.3.0)
+Requirement already satisfied: pip>=8.1.0 in /usr/local/lib/python3.6/site-packages (from pypandoc~=1.3.0)
+Requirement already satisfied: wheel>=0.25.0 in /usr/local/lib/python3.6/site-packages (from pypandoc~=1.3.0)
+Building wheels for collected packages: pypandoc
+  Running setup.py bdist_wheel for pypandoc: started
+  Running setup.py bdist_wheel for pypandoc: finished with status 'done'
+  Stored in directory: /Users/paulliferenko/Library/Caches/pip/wheels/ae/ad/24/8ae56cccee848926ed5cb93f2d80dc3e9b6840b179d9b4936e
+Successfully built pypandoc
+Installing collected packages: pypandoc
+Successfully installed pypandoc-1.3.3
