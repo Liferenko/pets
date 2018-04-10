@@ -1,0 +1,12 @@
+{
+    "widget":{
+        "name":"SHPM Catalog Drommel",
+        "short_description":"Caltulate goods to order's budget",
+        "description":"Full description"
+    },
+    "settings":{
+        "login":"User login",
+        "api_key":"API key",
+        "account":"Account"
+    }
+}

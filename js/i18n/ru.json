@@ -1,0 +1,12 @@
+{
+    "widget":{
+        "name":"ШПМ Каталог Drommel",
+        "short_description":"Пересчитывает бюджет лида по добавленным товарам из списка",
+        "description":"TODO init_once стоит false. Возможно, нужна будет true."
+    },
+    "settings":{
+        "login":"Логин",
+        "api_key":"ключ API",
+        "account":"Аккаунт"
+    }
+}
