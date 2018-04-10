@@ -5,7 +5,7 @@ define(['jquery'], function($){
 			// TODO Add new item to order
 			// TODO Remove item from order
                         // TODO Update / Change quantity of items
-                        // TODO grab order items' articles
+                        // TODO grab order items' articles aka SKU
 		};
 		
 		this.calculateGoodsSum = function() {
@@ -17,7 +17,7 @@ define(['jquery'], function($){
 		};
                 this.changeOrderList = function() {
                         let orderListId = 123 // TODO find it in Drommel API docs;
-                        // TODO change multilist by goods' articles
+                        // TODO change multilist by goods' articles (SKU)
                 };
 		
                 this.changeLeadBudget = function() {
@@ -44,7 +44,82 @@ define(['jquery'], function($){
 
 
 		this.callbacks = {
-			render: function(){
+ 			// SDK карточки - линк на php-файлы на сайт
+			var sdk_url = 'http://drommel.com.ua/webhooks/widget/';
+			var sdk_url_back_link = 'http://drommel.com.ua/webhooks/widget/sdk_back/link.php';      	   
+			var sdk_url_back_search = 'http://drommel.com.ua/webhooks/widget/sdk_back/search.php';
+                        
+                        loadPreloadedData: function () {
+                                return new Promise(_.bind(function (resolve, reject) {
+                                        //Сделаем запрос на удаленный сервер
+                                        self.crm_post(
+                                        sdk_url,
+                                        {
+                                            id: {number},
+                                            sku: {string},
+                                            name: {string},
+                                            price: {string},
+                                        },
+                                        function (msg) {
+                                                //Приведем элементы к нужному формату и зарезолвим
+                                                resolve(msg);
+                                        },
+                                        'json'
+                                        );
+                                }), this);
+                        },
+                        loadElements: function (type, id) {
+                                return new Promise(_.bind(function (resolve, reject) {
+                                        //Сделаем запрос на удаленный сервер
+                                        self.crm_post(
+                                        sdk_url,
+                                        {},
+                                        function (msg) {
+                                                //Приведем элементы к нужному формату и зарезолвим
+                                                resolve(msg);
+                                        },
+                                        'json'
+                                        );
+                                }), this);
+                        },
+                        linkCard: function (links) {
+                                return new Promise(_.bind(function (resolve, reject) {
+                                        //Сделаем запрос на удаленный сервер
+                                        self.crm_post(
+                                        sdk_back_url_link,
+                                        links,
+                                        function () {
+                                           //Мы не обрабатываем ошибки, которые могли произойти на вашей стороне, в данном блоке Вы можете выполнить
+Ваш код
+                                        },
+                                        'json'
+                                        );
+ 
+ 
+                                        resolve();
+                                }), this);
+                         },
+                         searchDataInCard: function (query, type, id) {
+                                return new Promise(_.bind(function (resolve, reject) {
+                                        self.crm_post(
+                                        sdk_back_url_search,
+                                        {
+                                        query: query,
+                                        type: type,
+                                        id: id
+                                        },
+                                        function (msg) {
+                                                resolve(msg);
+                                        },
+                                        'json'
+                                        );
+                                }), this);
+                        },
+
+// -----------
+
+
+                        render: function(){
                                 // ... здесь описываются действия для отображения виджета...
 				console.log('render');
 				return true;

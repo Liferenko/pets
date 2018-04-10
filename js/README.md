@@ -8,3 +8,8 @@ Mainteiner: Pavel Liferenko
 will use this:
 self.widgetsOverlay(true);
 ```
+
+
+** Sources:
+
+- [SDK карточки](https://www.amocrm.ru/developers/content/integrations/sdk_card)
