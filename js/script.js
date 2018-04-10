@@ -1,29 +1,46 @@
 define(['jquery'], function($){
     var CustomWidget = function () {
     	var self = this;
-		this.WakeUpWhenUserDoSomethingWithGoods = function() {
+		this.wakeUpWhenUserDoSomethingWithGoods = function() {
 			// TODO Add new item to order
 			// TODO Remove item from order
-			// TODO Update / Change quantity of items
-
+                        // TODO Update / Change quantity of items
+                        // TODO grab order items' articles
 		};
 		
-		this.WillCalculateGoodsSum = function() {
+		this.calculateGoodsSum = function() {
 			// TODO Take prices from goods
 			// TODO Calculate sum from goods' prices
 			// TODO check if goods sum ok
 			// TODO Tell user "Success. Sum is calculate"
 
 		};
-
-		this.WillChangeLeadBudget = function() {
+                this.changeOrderList = function() {
+                        let orderListId = 123 // TODO find it in Drommel API docs;
+                        // TODO change multilist by goods' articles
+                };
+		
+                this.changeLeadBudget = function() {
 			// TODO check if goods's sum not equal null
 			// TODO change sum
 			// TODO check if budget change sum from goods?
 		};
 
 
-
+		this.sendInfoToGoogleSpreadSheet = function() {
+                        // TODO send
+                        // self.crm_post(
+                        //      'https://TODO webhook URL',
+                        //      {
+                                // Send POST data
+                                name: person_name['name'],
+                                phones: person_name['phones'],
+                                emails: person_name['emails']
+                                },
+                        //      function() {},
+                        //      'json'
+                        //);
+                };
 
 
 		this.callbacks = {
