@@ -1,6 +1,31 @@
 define(['jquery'], function($){
     var CustomWidget = function () {
     	var self = this;
+		this.WakeUpWhenUserDoSomethingWithGoods = function() {
+			// TODO Add new item to order
+			// TODO Remove item from order
+			// TODO Update / Change quantity of items
+
+		};
+		
+		this.WillCalculateGoodsSum = function() {
+			// TODO Take prices from goods
+			// TODO Calculate sum from goods' prices
+			// TODO check if goods sum ok
+			// TODO Tell user "Success. Sum is calculate"
+
+		};
+
+		this.WillChangeLeadBudget = function() {
+			// TODO check if goods's sum not equal null
+			// TODO change sum
+			// TODO check if budget change sum from goods?
+		};
+
+
+
+
+
 		this.callbacks = {
 			render: function(){
                                 // ... здесь описываются действия для отображения виджета...
