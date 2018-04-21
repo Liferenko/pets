@@ -1,0 +1,17 @@
+{application, palindrome,
+ [{description, "Return palindrome by two 5-dig nums"},
+  {vsn, "0.1.0"},
+  {registered, []},
+  {mod, { palindrome_app, []}},
+  {applications,
+   [kernel,
+    stdlib,
+    common_test
+   ]},
+  {env,[]},
+  {modules, []},
+
+  {maintainers, []},
+  {licenses, ["Apache 2.0"]},
+  {links, []}
+ ]}.
