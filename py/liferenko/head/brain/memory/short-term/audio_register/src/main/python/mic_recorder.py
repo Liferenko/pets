@@ -90,24 +90,20 @@ def file_recorder():
             print( '--/' * 11 )
             print( 'Press Ctrl+C to stop the rec' )
             rec_time_limit = 5
-            timedelta = 11
+            timedelta = 0
             end_time = int( time.time() )
             while True:
                 start_time = int( time.time() )
                 timedelta = start_time - end_time
                 print(int(timedelta))
                 if timedelta > rec_time_limit:
-                    exit()
+                    break
                 file.write( q.get() )                   
 # END file saver
 
 
 
 # Setting record time limit
-start_time = time.time()
-end_time = time.time()
-timedelta = end_time - start_time
-rec_time_limit = 900000
 # END setting record time limit
 
 
@@ -127,6 +123,5 @@ class Logger(object):
 if __name__ == '__main__':
     logging.info( "Start bit of record" )
     file_recorder()
-    print('start - ', start_time,'end - ', end_time)
-    end_time = time.time()
-    logging.info( "Stop and save current bit // File name - %s" % (filename) )    
+    print("Stop successfully")
+    logging.info( "Stop and save current bit. File name - %s" % (args.filename) )    
