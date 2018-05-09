@@ -11,11 +11,11 @@ SOURCE
 source code as example from https://python-sounddevice.readthedocs.io/en/0.3.10/examples.html
 
 """
-
 import sounddevice
 import soundfile
 import argparse
 import tempfile
+import logging
 import queue
 import sys
 
@@ -90,5 +90,14 @@ def file_recorder():
 # security
 # END security
 
+class Logger(object):
+    logging.basicConfig(filename='audio_events_logging.log', 
+                        filemode='w',
+                        level=logging.INFO,
+                        format='%(asctime)s' [%(levelname)s] %(message)s)
+
 if __name__ == '__main__':
-    file_recorder()
+    while time.recording_start < time.time_limit_in_minutes:
+        logging.info( "Start bit of record" )
+        file_recorder()
+    logging.info( "Stop and save current bit // File name - %s" % (filename) )    
