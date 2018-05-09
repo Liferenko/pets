@@ -11,6 +11,7 @@ SOURCE
 source code as example from https://python-sounddevice.readthedocs.io/en/0.3.10/examples.html
 
 """
+# import recordtimer.recordtimer
 import sounddevice
 import soundfile
 import argparse
@@ -31,10 +32,6 @@ def int_or_str(text):
         return text
 
 parser = argparse.ArgumentParser(description=__doc__)
-parser.add_argument( 
-    '-t', '--time', default=6000, 
-    help='choose duration of record' )
-
 parser.add_argument(
     '-l', '--list-devices', action='store_true',
     help='show list of audio devices and exit')
@@ -50,8 +47,9 @@ parser.add_argument(
     help='audio file to store recording to')
 parser.add_argument(
     '-s', '--subtype', type=str, help='sound file subtype (e.g. "PCM_24")')
+parser.add_argument( '-t', '--timer', type=int, help='recording part duration in seconds' )
+    
 args = parser.parse_args()
-
         
 
 # device list
@@ -64,7 +62,8 @@ if args.list_devices:
 
 # define filename
 if args.filename is None:
-    args.filename = tempfile.mktemp( prefix='rec_', suffix='.wav', dir='result/' )   
+    filename_timestamp_prefix = str('rec_' + time.ctime())
+    args.filename = tempfile.mktemp( prefix=filename_timestamp_prefix, suffix='.wav', dir='result/' )   
     # TODO find how to rec on .mp3 or another less-size-format
 # END define filename
 
@@ -82,16 +81,19 @@ def callback( indata, frames, time, status ):
 
 
 
-# file saver ('with...as' promises that file will close)
+# file recorder ('with...as' promises that file will close)
 def file_recorder():
-    with soundfile.SoundFile( args.filename, mode='x', 
-                              samplerate=44100, channels=2 ) as file:
+    with soundfile.SoundFile( args.filename, 
+                              mode='x', 
+                              samplerate=44100, 
+                              channels=2 ) as file:
         with sounddevice.InputStream( device=args.device, callback=callback ):
             print( '--/' * 11 )
             print( 'Press Ctrl+C to stop the rec' )
             rec_time_limit = 5
             timedelta = 0
             end_time = int( time.time() )
+                
             while True:
                 start_time = int( time.time() )
                 timedelta = start_time - end_time
@@ -99,7 +101,7 @@ def file_recorder():
                 if timedelta > rec_time_limit:
                     break
                 file.write( q.get() )                   
-# END file saver
+# END file recorder
 
 
 
@@ -122,6 +124,8 @@ class Logger(object):
 
 if __name__ == '__main__':
     logging.info( "Start bit of record" )
-    file_recorder()
+    while True:
+        file_recorder()
+    
     print("Stop successfully")
     logging.info( "Stop and save current bit. File name - %s" % (args.filename) )    
