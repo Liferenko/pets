@@ -7,6 +7,7 @@ DESCRIPTION:
 AUTHOR:
 Pavel Liferenko (https://t.me/Liferenko)
 
+SOURCE 
 source code as example from https://python-sounddevice.readthedocs.io/en/0.3.10/examples.html
 
 """
@@ -26,6 +27,10 @@ def int_or_str(text):
         return text
 
 parser = argparse.ArgumentParser(description=__doc__)
+parser.add_argument( 
+    '-t', '--time', default=6000, 
+    help='choose duration of record' )
+
 parser.add_argument(
     '-l', '--list-devices', action='store_true',
     help='show list of audio devices and exit')
@@ -40,7 +45,7 @@ parser.add_argument(
     'filename', nargs='?', metavar='FILENAME',
     help='audio file to store recording to')
 parser.add_argument(
-    '-t', '--subtype', type=str, help='sound file subtype (e.g. "PCM_24")')
+    '-s', '--subtype', type=str, help='sound file subtype (e.g. "PCM_24")')
 args = parser.parse_args()
 
         
@@ -49,9 +54,11 @@ if args.list_devices:
     print( sounddevice.query_devices() )
     parser.exit(0)
 # END device list
+
 # define filename
 if args.filename is None:
     args.filename = tempfile.mktemp( prefix='rec_', suffix='.wav', dir='result/' )
+    
     # TODO find how to rec on .mp3 or another less-size-format
 
 # END define filename
@@ -69,11 +76,19 @@ def callback( indata, frames, time, status ):
 
 
 # file saver ('with...as' promises that file will close)
-with soundfile.SoundFile( args.filename, mode='x', samplerate=44100, channels=2 ) as file:
-    with sounddevice.InputStream( device=args.device, callback=callback ):
-        print( '--/' * 11 )
-        print( 'Press Ctrl+C to stop the rec' )
-        print( '-FINISH-!!!' * 11 )
-        while True:
-            file.write( q.get() )
+def file_recorder():
+    with soundfile.SoundFile( args.filename, mode='x', 
+                              samplerate=44100, channels=2 ) as file:
+        with sounddevice.InputStream( device=args.device, callback=callback ):
+            print( '--/' * 11 )
+            print( 'Press Ctrl+C to stop the rec' )
+            while True:
+                file.write( q.get() )
 # END file saver
+
+
+# security
+# END security
+
+if __name__ == '__main__':
+    file_recorder()
