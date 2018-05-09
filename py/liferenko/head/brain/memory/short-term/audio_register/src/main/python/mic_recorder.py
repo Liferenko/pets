@@ -15,9 +15,13 @@ import sounddevice
 import soundfile
 import argparse
 import tempfile
+import datetime
 import logging
 import queue
+import time
 import sys
+
+
 
 def int_or_str(text):
     """Helper function for argument parsing."""
@@ -49,19 +53,22 @@ parser.add_argument(
 args = parser.parse_args()
 
         
+
 # device list
 if args.list_devices:
     print( sounddevice.query_devices() )
     parser.exit(0)
 # END device list
 
+
+
 # define filename
 if args.filename is None:
-    args.filename = tempfile.mktemp( prefix='rec_', suffix='.wav', dir='result/' )
-    
+    args.filename = tempfile.mktemp( prefix='rec_', suffix='.wav', dir='result/' )   
     # TODO find how to rec on .mp3 or another less-size-format
-
 # END define filename
+
+
 
 
 q = queue.Queue() # FIFO (wanna test with LIFO)
@@ -82,22 +89,43 @@ def file_recorder():
         with sounddevice.InputStream( device=args.device, callback=callback ):
             print( '--/' * 11 )
             print( 'Press Ctrl+C to stop the rec' )
-            while True:
-                file.write( q.get() )
+            rec_time_limit = 10
+            end_time = time.time()
+            timedelta = rec_time_limit + 1
+            print(rec_time_limit)
+            while timedelta > rec_time_limit:
+                start_time = time.time()
+                timedelta = timedelta - start_time
+                print(int(timedelta))
+                file.write( q.get() )                   
 # END file saver
+
+
+
+# Setting record time limit
+start_time = time.time()
+end_time = time.time()
+timedelta = end_time - start_time
+rec_time_limit = 900000
+# END setting record time limit
+
 
 
 # security
 # END security
 
+# logging 
 class Logger(object):
     logging.basicConfig(filename='audio_events_logging.log', 
                         filemode='w',
                         level=logging.INFO,
-                        format='%(asctime)s' [%(levelname)s] %(message)s)
+                        format='%(asctime)s [%(levelname)s] %(message)s')
+# END logging
+
 
 if __name__ == '__main__':
-    while time.recording_start < time.time_limit_in_minutes:
-        logging.info( "Start bit of record" )
-        file_recorder()
+    logging.info( "Start bit of record" )
+    file_recorder()
+    print('start - ', start_time,'end - ', end_time)
+    end_time = time.time()
     logging.info( "Stop and save current bit // File name - %s" % (filename) )    
