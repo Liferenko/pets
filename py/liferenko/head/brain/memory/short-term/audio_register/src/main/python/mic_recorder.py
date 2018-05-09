@@ -89,14 +89,15 @@ def file_recorder():
         with sounddevice.InputStream( device=args.device, callback=callback ):
             print( '--/' * 11 )
             print( 'Press Ctrl+C to stop the rec' )
-            rec_time_limit = 10
-            end_time = time.time()
-            timedelta = rec_time_limit + 1
-            print(rec_time_limit)
-            while timedelta > rec_time_limit:
-                start_time = time.time()
-                timedelta = timedelta - start_time
+            rec_time_limit = 5
+            timedelta = 11
+            end_time = int( time.time() )
+            while True:
+                start_time = int( time.time() )
+                timedelta = start_time - end_time
                 print(int(timedelta))
+                if timedelta > rec_time_limit:
+                    exit()
                 file.write( q.get() )                   
 # END file saver
 
