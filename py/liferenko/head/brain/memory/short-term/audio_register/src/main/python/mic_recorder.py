@@ -32,6 +32,7 @@ def int_or_str(text):
         return text
 
 parser = argparse.ArgumentParser(description=__doc__)
+# parser.add_argument('-t', '--time', ) # TODO add somehow to define rec_time_limit variable
 parser.add_argument(
     '-l', '--list-devices', action='store_true',
     help='show list of audio devices and exit')
@@ -71,11 +72,6 @@ if args.filename is None:
 
 
 
-
-
-
-
-
 q = queue.Queue() # FIFO (wanna test with LIFO)
 
 # ...for each audioblock
@@ -96,7 +92,7 @@ def file_recorder():
         with sounddevice.InputStream( device=args.device, callback=callback ):
             print( '--/' * 11 )
             print( 'Press Ctrl+C to stop the rec' )
-            rec_time_limit = 5
+            rec_time_limit = 900 # sec / 900 s == 15 min
             timedelta = 0
             end_time = int( time.time() )
                 
@@ -107,6 +103,7 @@ def file_recorder():
                 if timedelta > rec_time_limit:
                     break
                 file.write( q.get() )                   
+                filename_timestamp_prefix = str('rec_' + time.ctime())
                 args.filename = tempfile.mktemp( prefix=filename_timestamp_prefix, suffix='.wav', dir='result/' )   
 
 
