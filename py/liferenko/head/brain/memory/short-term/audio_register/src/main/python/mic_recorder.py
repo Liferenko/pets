@@ -44,6 +44,7 @@ parser.add_argument(
     '-c', '--channels', type=int, default=1, help='number of input channels')
 parser.add_argument(
     'filename', nargs='?', metavar='FILENAME',
+
     help='audio file to store recording to')
 parser.add_argument(
     '-s', '--subtype', type=str, help='sound file subtype (e.g. "PCM_24")')
@@ -106,6 +107,9 @@ def file_recorder():
                 if timedelta > rec_time_limit:
                     break
                 file.write( q.get() )                   
+                args.filename = tempfile.mktemp( prefix=filename_timestamp_prefix, suffix='.wav', dir='result/' )   
+
+
 # END file recorder
 
 
