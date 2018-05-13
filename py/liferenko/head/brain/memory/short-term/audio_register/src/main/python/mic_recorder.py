@@ -59,13 +59,18 @@ if args.list_devices:
 # END device list
 
 
-
 # define filename
 if args.filename is None:
     filename_timestamp_prefix = str('rec_' + time.ctime())
     args.filename = tempfile.mktemp( prefix=filename_timestamp_prefix, suffix='.wav', dir='result/' )   
-    # TODO find how to rec on .mp3 or another less-size-format
+# TODO find how to rec on .mp3 or another less-size-format
+
 # END define filename
+
+
+
+
+
 
 
 
@@ -128,4 +133,5 @@ if __name__ == '__main__':
         file_recorder()
     
     print("Stop successfully")
-    logging.info( "Stop and save current bit. File name - %s" % (args.filename) )    
+
+    logging.info( "Stop and save current bit -- File name - %s" % (args.filename) )    
