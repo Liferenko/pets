@@ -1,6 +1,7 @@
 package main
 
 import (
+    "html/template"
     "fmt"
     "github.com/julienschmidt/httprouter"
     "log"
@@ -13,7 +14,76 @@ func indexHandler(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 }
 
 func pavelLiferenko(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
-    fmt.Fprint(w, "(c) Pavels Liferenkols")
+    // fmt.Fprint(w, "(c) Pavels Liferenkols")
+
+
+
+
+    // html/template
+
+    const tpl = `
+    <!DOCTYPE html>
+    <html>
+        <head>
+            <meta charset="UTF-8">
+            <title>{{.Title}}</title>
+        </head>
+        <body>
+            {{ tange .Items }}<div>{{ . }}</div>{{ else }}<div><strong>no rows</strong></div>{{end}}
+        </body>
+        </html>
+    `
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    check := func(err error) {
+        if err != nil {
+            log.Fatal(err)
+        }
+    }
+    t, err := template.New("webpage").Parse(tpl)
+    check(err)
+
+    data := struct {
+            Title string
+            Items []string
+    }{
+            Title: "Моя страница",
+            Items: []string{ "Мои фотки", "Мой бложик", },
+    }
+
+    err = t.Execute(os.Stdout, data)
+    
+    check(err)
+    noItems := struct {
+            Title string
+            Items []string
+    }{
+            Title: "Моя другая страница",
+            Items: []string{},
+    }
+
+    err = t.Execute(os.Stdout, noItems)
+    check(err)
+
 }
 
 func main() {
@@ -31,6 +101,39 @@ func main() {
 
     http.ListenAndServe(":8080", router)
 
-
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
